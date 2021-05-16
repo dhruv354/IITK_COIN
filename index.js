@@ -1,28 +1,28 @@
 const express = require("express");
-const path = require("path");
 const app = express();
 
 const port = 8080;
-console.log(path.join(__dirname, "views"));
+
+//dummy data
+const num_coins = {
+  1: 8,
+  2: 7,
+  56: 78,
+  123: 1000,
+};
+
+// console.log(num_coins[1]);
 
 /***********middlware*********** */
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 /************endpoints****************** */
-app.get("/", (req, res) => {
-  res.render("index");
-});
 
 app.post("/coins", (req, res) => {
-  const num_coins = req.body.rollno;
-  res.json({ coins: num_coins });
+  const roll_no = req.body.rollno;
+  res.json({ coins: num_coins[roll_no] });
 });
-
-/**********************set up view engine******************** */
-app.engine("html", require("ejs").renderFile);
-app.set("view engine", "html");
-app.set("views", path.join(__dirname, "views"));
 
 /************listening on server**************** */
 
